@@ -38,6 +38,7 @@ class AppColors {
       static const Color gradientColor1 = Color(0xff00ADEF);
       static const Color gradientColor2 = Color(0xff3871C1);
       static const Color mainColor = Colors.blueAccent;
+      static const Color containerColor = Color(0xff222124);
 }
 
 

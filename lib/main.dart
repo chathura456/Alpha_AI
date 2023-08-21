@@ -1,5 +1,7 @@
 import 'package:alphaai/pages/welcome_page.dart';
+import 'package:alphaai/providers/chat_provider.dart';
 import 'package:alphaai/providers/theme_provider.dart';
+import 'package:alphaai/providers/tts_provider.dart';
 import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -19,12 +21,14 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_)=> ThemeProvider()),
+        ChangeNotifierProvider(create: (_)=> ChatProvider()),
+        ChangeNotifierProvider(create: (_)=> TtsProvider()),
       ],
       child: Consumer<ThemeProvider>(
         builder: (context,ThemeProvider themeProvider, child){
           return MaterialApp(
             debugShowCheckedModeBanner: false,
-            title: 'Flutter Demo',
+            title: 'Alpha AI',
             theme: themeProvider.darkTheme?darkTheme:lightTheme,
             home: const SplashScreen(),
           );

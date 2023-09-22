@@ -1,4 +1,5 @@
 import 'package:alphaai/models/asset_manager.dart';
+import 'package:alphaai/pages/login_page.dart';
 import 'package:alphaai/pages/select_why.dart';
 import 'package:flutter/material.dart';
 
@@ -32,7 +33,7 @@ class _WelcomePageState extends State<WelcomePage> {
                     ),
                   ),
                   Padding(padding: const EdgeInsets.only(left: 0),
-                    child: Text('Alpha AI',
+                    child: Text('Ask Turbo AI',
                       style: TextStyle(color: Theme.of(context).colorScheme.onPrimary,
                           fontSize: 65,
                           fontWeight: FontWeight.bold
@@ -52,7 +53,7 @@ class _WelcomePageState extends State<WelcomePage> {
               onPressed: () {
                 Navigator.of(context).pushReplacement(
                     MaterialPageRoute(builder: (context){
-                      return const SelectWhy();
+                      return const LoginPage();
                     })
                 );
               },

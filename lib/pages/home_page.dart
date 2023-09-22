@@ -1,5 +1,7 @@
 import 'package:alphaai/constants/theme_data.dart';
+import 'package:alphaai/models/asset_manager.dart';
 import 'package:alphaai/pages/chatbot_page.dart';
+import 'package:alphaai/pages/image_screen.dart';
 import 'package:alphaai/widgets/suggestion_context_container.dart';
 import 'package:flutter/material.dart';
 import 'package:alphaai/pages/settings_page.dart';
@@ -21,75 +23,29 @@ class _HomePageState extends State<HomePage> {
       child: Scaffold(
         backgroundColor: Theme.of(context).colorScheme.background,
         appBar: AppBar(
-          toolbarHeight: 120.0,
-          title: const Padding(
-            padding: EdgeInsets.only(top: 33.0, left: 5.0),
-            child: Text(
-              'Alpha AI',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 35,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
+          title: Padding(
+            padding: EdgeInsets.only(left: 5.0),
+            child: Image.asset(AssetManager.logo, width: 50,height: 50,)
           ),
           backgroundColor: Theme.of(context).colorScheme.background,
           elevation: 0,
           actions: [
             Padding(
-              padding: const EdgeInsets.only(top: 33.0,right: 20),
+              padding: const EdgeInsets.only(right: 20),
               child: Row(
                 children: [
-                 /* ElevatedButton(
-                    onPressed: () {
-                      // Add your button's functionality here
-                    },
-                    style: ElevatedButton.styleFrom(
-                      primary: Colors.blue,
-                      onPrimary: Colors.white,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10.0),
-                      ),
-                      minimumSize: const Size(40, 40),
-                    ),
-                    child: const Text(
-                      'PRO',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 15.0,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(width: 20),*/
-                  /*Container(
-                    width: 40,
-                    height: 40,
-                    color: Colors.blueAccent,
-                    child: ElevatedButton(
-                      onPressed: () {
+                 /* IconButton(
+                      onPressed: (){
+                        Navigator.of(context)
+                            .pushReplacement(MaterialPageRoute(builder: (context) {
+                          return const ImageScreen();
+                        }));
                       },
-                      /*style: ElevatedButton.styleFrom(
-                        foregroundColor: Colors.white,
-                        primary: const Color.fromARGB(255, 103, 170, 238),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10.0),
-                        ),
-
-                      ),*/
-                      child: const Icon(
-                        Icons.discord,
-                        size: 30.0,
-                      ),
-                    ),
-                  ),*/
-                  IconButton(
-                      onPressed: (){},
                       icon: const Icon(Icons.image,color: Colors.white,),
                     iconSize: 28,
                     color: Colors.blueAccent,
                   ),
-                  const SizedBox(width: 20.0),
+                  const SizedBox(width: 20.0),*/
                   GestureDetector(
                     onTap: () {
                       Navigator.push(
@@ -116,15 +72,62 @@ class _HomePageState extends State<HomePage> {
           children: [
             SingleChildScrollView(
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                //crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Padding(
-                    padding: EdgeInsets.only(left: 20.0, top: 0.0),
-                    child: Text(
-                      'My History',
-                      style: TextStyle(
-                        fontSize: 25.0,
-                        fontWeight: FontWeight.bold,
+                  const Text(
+                    'Ask Turbo AI',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 35,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(height: 20,),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 30),
+                    child: GestureDetector(
+                      onTap: (){
+                        Navigator.of(context)
+                            .pushReplacement(MaterialPageRoute(builder: (context) {
+                          return const ChatbotPage();
+                        }));
+                      },
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 10.0, vertical: 10.0),
+                        height: 60.0,
+                        decoration: BoxDecoration(
+                          color: AppColors.containerColor,
+                          borderRadius: BorderRadius.circular(20.0),
+                        ),
+                        child: Row(
+                          children: [
+                            const Expanded(
+                              child: IgnorePointer(
+                                child: TextField(
+                                  decoration: InputDecoration(
+                                    hintText: 'Write your message',
+                                    border: InputBorder.none,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            const SizedBox(width: 10.0),
+                            Container(
+                              width: 35.0,
+                              height: 35.0,
+                              decoration: const BoxDecoration(
+                                color: Colors.blueAccent,
+                                shape: BoxShape.circle,
+                              ),
+                              child: const Icon(
+                                Icons.send,
+                                color: Colors.white,
+                                size: 20,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),
@@ -144,25 +147,17 @@ class _HomePageState extends State<HomePage> {
                   Center(
                     child: GestureDetector(
                       onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context){
-                                  return const ChatbotPage();
-                                }
-                            )
-                        );
+                        Navigator.of(context)
+                            .pushReplacement(MaterialPageRoute(builder: (context) {
+                          return const ChatbotPage();
+                        }));
                       },
                       child: ElevatedButton(
                         onPressed: (){
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context){
-                                    return const ChatbotPage();
-                                  }
-                              )
-                          );
+                          Navigator.of(context)
+                              .pushReplacement(MaterialPageRoute(builder: (context) {
+                            return const ChatbotPage();
+                          }));
                         },
                         style: ButtonStyle(
                           backgroundColor:
@@ -189,7 +184,7 @@ class _HomePageState extends State<HomePage> {
                   const Padding(
                     padding: EdgeInsets.only(left: 20.0, top: 30.0),
                     child: Text(
-                      'Suggestions',
+                      'Templates',
                       style: TextStyle(
                         fontSize: 25.0,
                         fontWeight: FontWeight.bold,
@@ -289,75 +284,71 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
 
-            Positioned(
-              bottom: 0,
-              left: 0,
-              right: 0,
-              height: 92.0, // 2 pixels more than your content container for the border
-              child: Container(
-                decoration: BoxDecoration(
-                  color: const Color.fromARGB(255, 50, 50, 50), // Border color
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(10.0),
-                    topRight: Radius.circular(10.0),
-                  ),
-                ),
-              ),
-            ),
+            // Positioned(
+            //   bottom: 0,
+            //   left: 0,
+            //   right: 0,
+            //   height: 92.0, // 2 pixels more than your content container for the border
+            //   child: Container(
+            //     decoration: BoxDecoration(
+            //       color: const Color.fromARGB(255, 50, 50, 50), // Border color
+            //       borderRadius: BorderRadius.only(
+            //         topLeft: Radius.circular(10.0),
+            //         topRight: Radius.circular(10.0),
+            //       ),
+            //     ),
+            //   ),
+            // ),
             // Your current Positioned widget
-            Positioned(
-              bottom: 0,
-              left: 0,
-              right: 0,
-              child: GestureDetector(
-                onTap: (){
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) {
-                        return const ChatbotPage();
-                      },
-                    ),
-                  );
-                },
-                child: Container(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 20.0, vertical: 10.0),
-                  height: 90.0,
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).colorScheme.background,
-                    borderRadius: BorderRadius.circular(10.0),
-                  ),
-                  child: Row(
-                    children: [
-                      const Expanded(
-                        child: IgnorePointer(
-                          child: TextField(
-                            decoration: InputDecoration(
-                              hintText: 'Write your message',
-                              border: InputBorder.none,
-                            ),
-                          ),
-                        ),
-                      ),
-                      const SizedBox(width: 10.0),
-                      Container(
-                        width: 40.0,
-                        height: 40.0,
-                        decoration: const BoxDecoration(
-                          color: Colors.blueAccent,
-                          shape: BoxShape.circle,
-                        ),
-                        child: const Icon(
-                          Icons.send,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
+            // Positioned(
+            //   bottom: 0,
+            //   left: 0,
+            //   right: 0,
+            //   child: GestureDetector(
+            //     onTap: (){
+            //       Navigator.of(context)
+            //           .pushReplacement(MaterialPageRoute(builder: (context) {
+            //         return const ChatbotPage();
+            //       }));
+            //     },
+            //     child: Container(
+            //       padding: const EdgeInsets.symmetric(
+            //           horizontal: 20.0, vertical: 10.0),
+            //       height: 90.0,
+            //       decoration: BoxDecoration(
+            //         color: Theme.of(context).colorScheme.background,
+            //         borderRadius: BorderRadius.circular(10.0),
+            //       ),
+            //       child: Row(
+            //         children: [
+            //           const Expanded(
+            //             child: IgnorePointer(
+            //               child: TextField(
+            //                 decoration: InputDecoration(
+            //                   hintText: 'Write your message',
+            //                   border: InputBorder.none,
+            //                 ),
+            //               ),
+            //             ),
+            //           ),
+            //           const SizedBox(width: 10.0),
+            //           Container(
+            //             width: 40.0,
+            //             height: 40.0,
+            //             decoration: const BoxDecoration(
+            //               color: Colors.blueAccent,
+            //               shape: BoxShape.circle,
+            //             ),
+            //             child: const Icon(
+            //               Icons.send,
+            //               color: Colors.white,
+            //             ),
+            //           ),
+            //         ],
+            //       ),
+            //     ),
+            //   ),
+            // ),
           ],
         ),
       ),

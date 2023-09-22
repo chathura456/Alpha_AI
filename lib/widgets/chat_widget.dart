@@ -118,7 +118,7 @@ class _ChatWidgetState extends State<ChatWidget> {
                   //color: Theme.of(context).colorScheme.onTertiary,
                   color: AppColors.mainColor,
                 ),
-                constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width*0.6),
+                constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width*0.7),
                 child:
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 12,horizontal: 18),
@@ -131,14 +131,14 @@ class _ChatWidgetState extends State<ChatWidget> {
                 ),
               ),
               const SizedBox(width: 10,),
-              Padding(
+             /* Padding(
                 padding: const EdgeInsets.only(top: 1),
                 child: Image.asset(
                   AssetManager.person,
                   height: 30,
                   width: 30,
                 ),
-              ),
+              ),*/
 
             ],),
         ),

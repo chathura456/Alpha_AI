@@ -1,4 +1,6 @@
+import 'package:alphaai/constants/theme_data.dart';
 import 'package:alphaai/models/asset_manager.dart';
+import 'package:avatar_glow/avatar_glow.dart';
 import 'package:flutter/material.dart';
 import 'package:alphaai/providers/chat_provider.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -10,6 +12,7 @@ import '../providers/tts_provider.dart';
 import '../services/tts_services.dart';
 import '../widgets/chat_widget.dart';
 import '../widgets/text_widget.dart';
+import 'home_page.dart';
 
 class ChatbotPage extends StatefulWidget {
   const ChatbotPage({Key? key, this.label, this.prompt, this.categoryName}) : super(key: key);
@@ -30,7 +33,7 @@ class _ChatbotPageState extends State<ChatbotPage> with AutomaticKeepAliveClient
   bool micVisible = true;
   bool isSpeak = true;
   SpeechToText speechToText = SpeechToText();
-  late String userInput;
+  String userInput = '';
 
   @override
   void initState() {
@@ -42,6 +45,12 @@ class _ChatbotPageState extends State<ChatbotPage> with AutomaticKeepAliveClient
       _focusNode.requestFocus();
     });
     textController = TextEditingController(text: widget.prompt ?? "");
+    if(widget.prompt!=null){
+      print(widget.prompt);
+      setState(() {
+        micVisible = false;
+      });
+    }
     if(isNotEmpty==true){
       setState(() {
         isNotEmpty == false;
@@ -71,7 +80,8 @@ class _ChatbotPageState extends State<ChatbotPage> with AutomaticKeepAliveClient
       resizeToAvoidBottomInset: true,
       backgroundColor: Theme.of(context).colorScheme.background,
       appBar: AppBar(
-        elevation: 0.0,
+        elevation: 2.0,
+        shadowColor: Colors.grey,
         title: const Text(
           "Alpha AI",
           style: TextStyle(
@@ -84,11 +94,14 @@ class _ChatbotPageState extends State<ChatbotPage> with AutomaticKeepAliveClient
         // Custom back button
         leading: GestureDetector(
           onTap: () {
-            Navigator.pop(context);
+            Navigator.of(context)
+                .pushReplacement(MaterialPageRoute(builder: (context) {
+              return const HomePage();
+            }));
           },
           child: Container(
-            padding: EdgeInsets.all(10.0),
-            child: Icon(
+            padding: const EdgeInsets.all(10.0),
+            child: const Icon(
               Icons.arrow_back_ios_new_rounded,
               color: Colors.white, // Change the color of the back arrow
             ),
@@ -127,6 +140,7 @@ class _ChatbotPageState extends State<ChatbotPage> with AutomaticKeepAliveClient
       ),
       body: Column(
         children: [
+          const SizedBox(height: 15,),
           Expanded(
             child: ListView.builder(
               shrinkWrap: true,
@@ -216,11 +230,81 @@ class _ChatbotPageState extends State<ChatbotPage> with AutomaticKeepAliveClient
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.center, // Align items vertically in the center
                         children: [
+                          Visibility(
+                              maintainState: true,
+                              visible: micVisible,
+                              child: AvatarGlow(
+                                endRadius: 25.0,
+                                animate: isListen,
+                                duration: const Duration(milliseconds: 2000),
+                                repeat: true,
+                                repeatPauseDuration: const Duration(milliseconds: 200),
+                                showTwoGlows: true,
+                                glowColor: Theme.of(context).colorScheme.onSecondary,
+                                child: GestureDetector(
+                                  onTap: () async {
+                                    if(!isListen){
+                                      var available = await speechToText.initialize();
+                                      if(available){
+                                        setState(() {
+                                          isListen = true;
+                                          speechToText.listen(
+                                              listenFor: const Duration(seconds: 5),
+                                              onResult: (result){
+                                                setState(() {
+                                                  userInput = result.recognizedWords;
+                                                  textController.text =userInput;
+
+                                                  textController.selection = TextSelection.fromPosition(
+                                                    TextPosition(offset: userInput.length),
+                                                  );
+
+                                                  isListen = false;
+                                                  //textEditingController.text = result.recognizedWords;
+                                                });
+                                              }
+                                          );
+
+                                        });
+
+                                        // Wait for the listening duration to end
+                                        await Future.delayed(const Duration(seconds: 5));
+
+                                        // Check if any words were recognized
+                                        if (userInput == null || userInput.isEmpty) {
+                                          // No words were recognized or user input is empty
+                                          setState(() {
+                                            isListen = false;
+                                          });
+                                        }
+                                      }
+                                    }
+                                  },
+                                  /*onLongPressDown: (details) async{
+
+
+                                  },
+                                  onTapUp: (details) async{
+                                    setState(() {
+                                      isListen = false;
+                                    });
+                                    await speechToText.stop();
+                                  },*/
+                                  child: CircleAvatar(
+                                    radius: 20,
+                                    backgroundColor: Theme.of(context).colorScheme.background,
+                                    child:  Icon(isListen?Icons.mic:Icons.mic_off,color: Colors.white,size: 30,),
+                                  ),
+                                ),
+                              )
+                          ),
                           Expanded(
                             child: SingleChildScrollView(
                               reverse: true,
                               child: TextField(
+
                                 controller: textController,
+                                textInputAction: TextInputAction.send,
                                 focusNode: _focusNode,
                                 autofocus: true,
                                 maxLines: null,
@@ -228,6 +312,39 @@ class _ChatbotPageState extends State<ChatbotPage> with AutomaticKeepAliveClient
                                   hintText: 'Write your message',
                                   border: InputBorder.none,
                                 ),
+                                cursorColor:Colors.white,
+                                onTap: (){
+                                  setState(() {
+                                    isListen = false;
+                                    micVisible = false;
+                                    if(textController.text.isEmpty){
+                                      micVisible = true;
+                                    }else{
+                                      micVisible = false;
+                                    }
+
+                                  });
+                                },
+                                onChanged: (value){
+                                  if(textController.text.isEmpty){
+                                    setState(() {
+                                      micVisible = true;
+                                    });
+                                  }else{
+                                    setState(() {
+                                      micVisible = false;
+                                    });
+                                  }
+                                },
+                                onSubmitted: (value) async {
+                                  setState(() {
+                                    isNotEmpty = true;
+                                    micVisible=true;
+                                  });
+                                  await sentMessageIst(
+                                      ttsProvider: ttsProvider,
+                                      chatProvider: chatProvider);
+                                },
                               ),
                             ),
                           ),

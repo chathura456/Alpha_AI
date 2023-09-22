@@ -17,6 +17,8 @@ class GradientButton extends StatelessWidget {
     this.height = 50.0,
   });
 
+
+
   @override
   Widget build(BuildContext context) {
 
@@ -25,15 +27,15 @@ class GradientButton extends StatelessWidget {
       child: DecoratedBox(
         decoration: BoxDecoration(
           borderRadius: borderRadius,
-          // gradient: const LinearGradient(
-          //   begin: Alignment.topLeft,
-          //   end: Alignment.bottomRight,
-          //   colors: [
-          //     AppColors.gradientColor1,
-          //     AppColors.gradientColor2
-          //   ],
-          // ),
-          color: AppColors.mainColor
+          gradient: const LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [
+              AppColors.gradientColor1,
+              AppColors.gradientColor2
+            ],
+          ),
+         // color: AppColors.gradientColor1
         ),
         child: Container(
           width: width,

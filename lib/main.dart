@@ -1,5 +1,8 @@
+import 'package:alphaai/pages/login_page.dart';
 import 'package:alphaai/pages/welcome_page.dart';
 import 'package:alphaai/providers/chat_provider.dart';
+import 'package:alphaai/providers/count_provider.dart';
+import 'package:alphaai/providers/size_provider.dart';
 import 'package:alphaai/providers/theme_provider.dart';
 import 'package:alphaai/providers/tts_provider.dart';
 import 'package:animated_splash_screen/animated_splash_screen.dart';
@@ -23,6 +26,8 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_)=> ThemeProvider()),
         ChangeNotifierProvider(create: (_)=> ChatProvider()),
         ChangeNotifierProvider(create: (_)=> TtsProvider()),
+        ChangeNotifierProvider(create: (_)=> SizesProvider()),
+        ChangeNotifierProvider(create: (_)=> ImageCountProvider()),
       ],
       child: Consumer<ThemeProvider>(
         builder: (context,ThemeProvider themeProvider, child){
@@ -56,7 +61,7 @@ class SplashScreen extends StatelessWidget {
         ),
       ),
       //backgroundColor: newColor,
-      nextScreen: const WelcomePage(),
+      nextScreen: const LoginPage(),
       splashIconSize: width,
       duration: 3000,
       splashTransition: SplashTransition.fadeTransition,
